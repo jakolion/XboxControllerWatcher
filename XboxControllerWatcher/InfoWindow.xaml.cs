@@ -4,11 +4,14 @@ using System.Drawing;
 using System.Windows;
 using System.Globalization;
 using System.Windows.Media.Animation;
+using System.Reflection;
 using NotifyIcon = System.Windows.Forms.NotifyIcon;
 using ContextMenu = System.Windows.Forms.ContextMenu;
 using MenuItem = System.Windows.Forms.MenuItem;
 using Application = System.Windows.Forms.Application;
 using Timer = System.Windows.Forms.Timer;
+using MouseEventArgs = System.Windows.Forms.MouseEventArgs;
+using MouseButtons = System.Windows.Forms.MouseButtons;
 
 namespace XboxControllerWatcher
 {
@@ -38,6 +41,7 @@ namespace XboxControllerWatcher
             _trayIcon = new NotifyIcon();
             _trayIcon.Icon = (Icon) Properties.Resources.ResourceManager.GetObject( "icon" );
             _trayIcon.Text = Application.ProductName;
+            _trayIcon.MouseUp += OnTrayMenu_MouseUp;
 
             // create tray menu
             ContextMenu trayMenu = new ContextMenu();
@@ -140,6 +144,15 @@ namespace XboxControllerWatcher
         private void OnTrayMenuExitClicked ( object sender, EventArgs e )
         {
             System.Windows.Application.Current.Shutdown();
+        }
+
+        private void OnTrayMenu_MouseUp ( object sender, MouseEventArgs e )
+        {
+            if ( e.Button == MouseButtons.Left )
+            {
+                MethodInfo mi = typeof( NotifyIcon ).GetMethod( "ShowContextMenu", BindingFlags.Instance | BindingFlags.NonPublic );
+                mi.Invoke( _trayIcon, null );
+            }
         }
 
         private void Window_Closing ( object sender, System.ComponentModel.CancelEventArgs e )
