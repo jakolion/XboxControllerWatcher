@@ -32,7 +32,7 @@ namespace XboxControllerWatcher
 
             // configure animation for fading
             _animation = new DoubleAnimation();
-            _animation.FillBehavior = FillBehavior.Stop;
+            _animation.FillBehavior = FillBehavior.HoldEnd;
             Timeline.SetDesiredFrameRate( _animation, 60 );
         }
 
@@ -62,7 +62,7 @@ namespace XboxControllerWatcher
             if ( _animation.BeginTime != null && ( _animation.To == 1.0 || _animation.To == 0.0 ) )
                 return;
 
-            FadeInInfo();
+            FadeIn();
         }
 
         private void Window_MouseLeave ( object sender, System.Windows.Input.MouseEventArgs e )
@@ -77,11 +77,7 @@ namespace XboxControllerWatcher
             if ( Opacity == 0.0 )
                 return;
 
-            // ignore if window was currently hidden
-            if ( Visibility != Visibility.Visible )
-                return;
-
-            FadeInInfo();
+            FadeIn();
         }
 
         private void Window_MouseUp ( object sender, System.Windows.Input.MouseButtonEventArgs e )
@@ -95,7 +91,7 @@ namespace XboxControllerWatcher
             Dispatcher.Invoke( () =>
             {
                 // check if the window is currently show
-                if ( Visibility == Visibility.Visible )
+                if ( Opacity > 0.0 )
                 {
                     // check if the status of the currently shown controller index has changed
                     if ( controller.index != _currentControllerIndex )
@@ -126,31 +122,28 @@ namespace XboxControllerWatcher
                 _currentControllerIndex = controller.index;
 
                 // fade in the window
-                FadeInInfo();
+                FadeIn();
             } );
         }
 
         private void HideInfo ( bool hideCompletely )
         {
-            FadeOutInfo( hideCompletely );
+            FadeOut( hideCompletely );
         }
 
-        private void FadeInInfo ()
+        private void FadeIn ()
         {
-            // stop the animation, keep current opacity
+            // stop the animation
             if ( _animation.BeginTime != null )
             {
                 _animation.BeginTime = null;
                 _animation.Completed -= FadingFinished;
-                double tmpOpacity = Opacity;
-                Opacity = tmpOpacity;
-                BeginAnimation( OpacityProperty, null );
             }
 
             Show();
 
-            // start auto hide timer if mouse is not over
-            if ( !_mouseIsOver )
+            // start auto hide timer if opacity is 100% and no mouse is over
+            if ( Opacity == 1.0 && !_mouseIsOver )
                 _autohideTimer.Start();
 
             // if opacity is already 100%, there is no need for an animation
@@ -161,36 +154,30 @@ namespace XboxControllerWatcher
             _animation.BeginTime = TimeSpan.FromMilliseconds( 0 );
             _animation.From = Opacity;
             _animation.To = 1.0;
-            int duration = Convert.ToInt32( Constants.WINDOW_INFO_FADING_IN_DURATION * ( 1.0 - Opacity ) );
+            int duration = Convert.ToInt32( Constants.WINDOW_INFO_FADE_IN_DURATION * ( 1.0 - Opacity ) );
             _animation.Duration = TimeSpan.FromMilliseconds( duration );
             _animation.Completed += FadingFinished;
             BeginAnimation( OpacityProperty, _animation );
         }
 
-        private void FadeOutInfo ( bool hideCompletely )
+        private void FadeOut ( bool hideCompletely )
         {
-            // stop the animation, keep current opacity
+            // stop the animation
             if ( _animation.BeginTime != null )
             {
                 _animation.BeginTime = null;
                 _animation.Completed -= FadingFinished;
-                double tmpOpacity = Opacity;
-                Opacity = tmpOpacity;
-                BeginAnimation( OpacityProperty, null );
             }
 
             // if opacity is already 0%, there is no need for an animation
             if ( Opacity == 0.0 )
-            {
-                Hide();
                 return;
-            }
 
             // start new fade out animation from current opacity to 0% or 50%
             _animation.BeginTime = TimeSpan.FromMilliseconds( 0 );
             _animation.From = Opacity;
             _animation.To = ( _autohideCompletely || hideCompletely ? 0.0 : 0.5 );
-            int duration = Convert.ToInt32( Constants.WINDOW_INFO_FADING_OUT_DURATION * ( Opacity - _animation.To ) );
+            int duration = Convert.ToInt32( Constants.WINDOW_INFO_FADE_OUT_DURATION * ( Opacity - _animation.To ) );
             _animation.Duration = TimeSpan.FromMilliseconds( duration );
             _animation.Completed += FadingFinished;
             BeginAnimation( OpacityProperty, _animation );
@@ -198,23 +185,16 @@ namespace XboxControllerWatcher
 
         private void FadingFinished ( object sender, EventArgs e )
         {
-            // stop animation, set opacity to target value
+            // stop animation
             _animation.BeginTime = null;
             _animation.Completed -= FadingFinished;
-            if ( _animation.To != null ) Opacity = Convert.ToDouble( _animation.To );
-            BeginAnimation( OpacityProperty, null );
 
             // start auto hide timer if opacity is 100% and no mouse is over
-            if ( Opacity == 1.0 && !_mouseIsOver )
-                // start auto hide timer
+            if ( _animation.To == 1.0 && !_mouseIsOver )
                 _autohideTimer.Start();
 
-            // hide window if opacity is 0%
-            if ( Opacity == 0.0 )
-                Hide();
-
             // check if there is an item in the wait queue
-            if ( Opacity == 0.0 && _infoQueue.Size() > 0 )
+            if ( _animation.To == 0.0 && _infoQueue.Size() > 0 )
             {
                 // get next queue item and show info window
                 InfoQueueItem iqi = _infoQueue.Get();
