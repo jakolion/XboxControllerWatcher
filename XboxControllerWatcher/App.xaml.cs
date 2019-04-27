@@ -15,8 +15,7 @@ namespace XboxControllerWatcher
             if ( mutexCreatedSuccessfully )
             {
                 // no other instance running
-                InfoWindow infoWindow = new InfoWindow();
-                _ = new Watcher( infoWindow );
+                new Main();
             }
             else
             {

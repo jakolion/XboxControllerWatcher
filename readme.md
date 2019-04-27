@@ -1,15 +1,27 @@
 ## Xbox Controller Watcher
 
-Because of a missing battery level indicator of the Xbox One Controller when connected to a PC, the "Xbox Controller Watcher" is a tool for monitoring the battery level. It shows a popup when the controller gets connected, disconnected or if the battery level changes. If the battery level changes to low or empty the popup will stay until it is clicked or the battery level changes to medium or full.
+The *Xbox Controller Watcher* is monitoring a connected Xbox Controller and has two tasks:
+
+1. Battery Level
+
+    Because of a missing battery level indicator of the Xbox One Controller when connected to a PC, the *Xbox Controller Watcher* monitors the battery level. It shows a popup when the controller gets connected, disconnected or if the battery level changes.
+    
+    If the popup is shown while a fullscreen application is running, the popup might not be visible to the user. Therefore the popup will stay on the screen if the battery level changes to low or empty. Then the user is able to see the popup when exiting the fullscreen application.
+
+2. Hotkeys
+
+    Additionally the *Xbox Controller Watcher* monitors hotkeys pressed on the controller. The user can define custom hotkeys and the corresponding commands.
 
 ## Credits
 
--   **Xbox program icon**  
+The *Xbox Controller Watcher* uses some images created by other authors:
+
+-   **Program icon**  
     Author: Icon made by [Yun Liu](https://www.shareicon.net/author/yun-liu) from https://www.shareicon.net/  
     License: Free for commercial use  
     URL: https://www.shareicon.net/white-controller-gamer-xbox-one-controllers-843976  
     
--   **Xbox battery level icons**  
+-   **Battery level icons**  
     Author: Icon made by [Freepik](http://www.freepik.com/) from http://www.flaticon.com  
     License: Flaticon Basic License  
     URL no battery: https://www.flaticon.com/free-icon/xbox-control-for-one_37942  

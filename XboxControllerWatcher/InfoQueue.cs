@@ -1,30 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace XboxControllerWatcher
 {
-    public class InfoWindowQueueItem
+    public class InfoQueueItem
     {
         public string text;
         public Controller controller;
 
-        public InfoWindowQueueItem ( string text, Controller controller )
+        public InfoQueueItem ( string text, Controller controller )
         {
             this.text = text;
             this.controller = controller;
         }
     }
 
-    public class InfoWindowQueue
+    public class InfoQueue
     {
-        private List<InfoWindowQueueItem> _data;
+        private List<InfoQueueItem> _data;
 
-        public InfoWindowQueue ()
+        public InfoQueue ()
         {
-            _data = new List<InfoWindowQueueItem>();
+            _data = new List<InfoQueueItem>();
         }
 
         public int Size ()
@@ -50,14 +46,14 @@ namespace XboxControllerWatcher
 
             // if controller wasn't found, add it
             if ( !found )
-                _data.Add( new InfoWindowQueueItem( text, controller ) );
+                _data.Add( new InfoQueueItem( text, controller ) );
         }
 
-        public InfoWindowQueueItem Get ()
+        public InfoQueueItem Get ()
         {
             if ( _data.Count > 0 )
             {
-                InfoWindowQueueItem iwqi = _data[0];
+                InfoQueueItem iwqi = _data[0];
                 _data.RemoveAt( 0 );
                 return iwqi;
             }

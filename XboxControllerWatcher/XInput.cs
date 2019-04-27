@@ -25,19 +25,19 @@ namespace XboxControllerWatcher
         [StructLayout( LayoutKind.Sequential )]
         public struct ControllerState
         {
-            uint packetNumber;
-            ControllerControls controls;
+            public uint packetNumber;
+            public ControllerControls controls;
 
             [StructLayout( LayoutKind.Sequential )]
             public struct ControllerControls
             {
-                ushort buttons;
-                byte leftTrigger;
-                byte rightTrigger;
-                short thumbLeftX;
-                short thumbLeftY;
-                short thumbRightX;
-                short thumbRightY;
+                public ushort buttons;
+                public byte leftTrigger;
+                public byte rightTrigger;
+                public short thumbLeftX;
+                public short thumbLeftY;
+                public short thumbRightX;
+                public short thumbRightY;
             }
         }
 
@@ -55,6 +55,13 @@ namespace XboxControllerWatcher
             ControllerState state;
             Imports.XInputGetState( controllerIndex, out state );
             return state;
+        }
+
+        public static ushort GetButtonState ( uint controllerIndex )
+        {
+            ControllerState state;
+            Imports.XInputGetState( controllerIndex, out state );
+            return state.controls.buttons;
         }
 
         public static Controller GetBatteryInformation ( uint controllerIndex )
