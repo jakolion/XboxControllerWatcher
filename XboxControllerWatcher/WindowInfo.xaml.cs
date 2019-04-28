@@ -47,8 +47,8 @@ namespace XboxControllerWatcher
 
         private void Window_Closing ( object sender, System.ComponentModel.CancelEventArgs e )
         {
-            // stop timer
-            _autohideTimer.Stop();
+            // prevent window from closing
+            e.Cancel = true;
         }
 
         private void Window_MouseEnter ( object sender, System.Windows.Input.MouseEventArgs e )

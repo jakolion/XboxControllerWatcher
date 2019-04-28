@@ -111,6 +111,12 @@ namespace XboxControllerWatcher
             FadeOut();
         }
 
+        private void Window_Closing ( object sender, System.ComponentModel.CancelEventArgs e )
+        {
+            // prevent window from closing
+            e.Cancel = true;
+        }
+
         private void Window_SizeChanged ( object sender, SizeChangedEventArgs e )
         {
             // set position of window
