@@ -41,22 +41,41 @@ namespace XboxControllerWatcher
 
         private void OnHotkeyTimerEvent ( object source, EventArgs e )
         {
-            // check if there are any hotkeys to be monitored
-            bool hotkeyToMonitorExists = false;
-            foreach ( Hotkey hotkey in _main.settings.hotkeys )
+            // check if there is at least one controller connected
+            bool isAnyControllerConnected = false;
+            for ( uint i = 0; i < Constants.MAX_CONTROLLERS; i++ )
             {
-                if ( hotkey.isEnabled )
+                if ( _controllerList[i].isConnected )
                 {
-                    hotkeyToMonitorExists = true;
-                    _hotkeyTimer.Interval = Constants.POLL_INTERVAL_HOTKEY;
+                    isAnyControllerConnected = true;
                     break;
                 }
             }
 
-            // if no active hotkey is found we want to reduce the load
-            if ( !hotkeyToMonitorExists )
+            // check if there are any hotkeys to be monitored
+            bool isAnyHotkeyEnabled = false;
+            if ( isAnyControllerConnected )
             {
-                // set interval
+                foreach ( Hotkey hotkey in _main.settings.hotkeys )
+                {
+                    if ( hotkey.isEnabled )
+                    {
+                        isAnyHotkeyEnabled = true;
+                        break;
+                    }
+                }
+            }
+
+            // check if at least one controller is connected and one
+            // hotkey is defined, otherwise we want to reduce the load
+            if ( isAnyControllerConnected && isAnyHotkeyEnabled )
+            {
+                // set short intervall and continue
+                _hotkeyTimer.Interval = Constants.POLL_INTERVAL_HOTKEY;
+            }
+            else
+            {
+                // set long interval and restart the loop
                 _hotkeyTimer.Interval = Constants.POLL_INTERVAL_HOTKEY_INACTIVE;
 
                 // restart timer
