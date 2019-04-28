@@ -81,7 +81,7 @@ namespace XboxControllerWatcher
                 return;
             }
 
-            // start new fade out animation from current opacity to 0% or 50%
+            // start new fade out animation from current opacity to 0%
             _animation.BeginTime = TimeSpan.FromMilliseconds( 0 );
             _animation.From = Opacity;
             _animation.To = 0.0;
@@ -100,6 +100,10 @@ namespace XboxControllerWatcher
             // start timer if opacity is 100%
             if ( _animation.To == 1.0 )
                 _timer.Start();
+
+            // hide if opacity is 0%
+            if ( _animation.To == 0.0 )
+                Hide();
         }
 
         private void OnTimerEvent ( object sender, EventArgs e )
@@ -127,10 +131,10 @@ namespace XboxControllerWatcher
 
             base.OnSourceInitialized( e );
 
-            // Get this window's handle
+            // get this window's handle
             IntPtr hwnd = new WindowInteropHelper( this ).Handle;
 
-            // Change the extended window style to include WS_EX_TRANSPARENT
+            // change the extended window style to include WS_EX_TRANSPARENT
             int extendedStyle = GetWindowLong( hwnd, GWL_EXSTYLE );
             SetWindowLong( hwnd, GWL_EXSTYLE, extendedStyle | WS_EX_TRANSPARENT );
         }

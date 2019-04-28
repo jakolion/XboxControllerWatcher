@@ -171,7 +171,10 @@ namespace XboxControllerWatcher
 
             // if opacity is already 0%, there is no need for an animation
             if ( Opacity == 0.0 )
+            {
+                Hide();
                 return;
+            }
 
             // start new fade out animation from current opacity to 0% or 50%
             _animation.BeginTime = TimeSpan.FromMilliseconds( 0 );
@@ -192,6 +195,10 @@ namespace XboxControllerWatcher
             // start auto hide timer if opacity is 100% and no mouse is over
             if ( _animation.To == 1.0 && !_mouseIsOver )
                 _autohideTimer.Start();
+
+            // hide if opacity is 0%
+            if ( _animation.To == 0.0 )
+                Hide();
 
             // check if there is an item in the wait queue
             if ( _animation.To == 0.0 && _infoQueue.Size() > 0 )
