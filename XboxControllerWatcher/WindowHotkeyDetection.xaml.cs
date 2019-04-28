@@ -2,6 +2,8 @@
 using System.Windows;
 using System.Windows.Threading;
 using System.Windows.Media.Animation;
+using System.Runtime.InteropServices;
+using System.Windows.Interop;
 
 namespace XboxControllerWatcher
 {
@@ -16,7 +18,7 @@ namespace XboxControllerWatcher
 
             // set opacity
             Opacity = 0.0;
-            
+
             // configure animation for fading
             _animation = new DoubleAnimation();
             _animation.BeginTime = null;
@@ -71,7 +73,7 @@ namespace XboxControllerWatcher
                 _animation.BeginTime = null;
                 _animation.Completed -= FadingFinished;
             }
-            
+
             // if opacity is already 0%, there is no need for an animation
             if ( Opacity == 0.0 )
             {
@@ -97,7 +99,7 @@ namespace XboxControllerWatcher
 
             // start timer if opacity is 100%
             if ( _animation.To == 1.0 )
-                    _timer.Start();
+                _timer.Start();
         }
 
         private void OnTimerEvent ( object sender, EventArgs e )
@@ -110,6 +112,27 @@ namespace XboxControllerWatcher
             // set position of window
             Left = SystemParameters.WorkArea.Width / 2 - ActualWidth / 2;
             Top = ( SystemParameters.WorkArea.Height - ActualHeight ) * 0.1;
+        }
+
+        [DllImport( "user32.dll" )]
+        public static extern int GetWindowLong ( IntPtr hwnd, int index );
+
+        [DllImport( "user32.dll" )]
+        public static extern int SetWindowLong ( IntPtr hwnd, int index, int newStyle );
+
+        protected override void OnSourceInitialized ( EventArgs e )
+        {
+            const int WS_EX_TRANSPARENT = 0x00000020;
+            const int GWL_EXSTYLE = -20;
+
+            base.OnSourceInitialized( e );
+
+            // Get this window's handle
+            IntPtr hwnd = new WindowInteropHelper( this ).Handle;
+
+            // Change the extended window style to include WS_EX_TRANSPARENT
+            int extendedStyle = GetWindowLong( hwnd, GWL_EXSTYLE );
+            SetWindowLong( hwnd, GWL_EXSTYLE, extendedStyle | WS_EX_TRANSPARENT );
         }
     }
 }
