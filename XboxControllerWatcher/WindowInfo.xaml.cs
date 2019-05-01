@@ -10,7 +10,8 @@ namespace XboxControllerWatcher
     {
         private DispatcherTimer _timer;
         private bool _autohideCompletely = false;
-        private uint _currentControllerIndex = 0;
+        private int _currentControllerIndex = -1;
+        private readonly object _lock = new object();
         private bool _mouseIsOver = false;
         private InfoQueue _infoQueue;
         private OpacityAnimation _animation;
@@ -88,36 +89,41 @@ namespace XboxControllerWatcher
         {
             Dispatcher.Invoke( () =>
             {
-                // check if the window is currently show
-                if ( Opacity > 0.0 )
+                // entering critical section because we do not want to miss an info
+                lock ( _lock )
                 {
-                    // check if the status of the currently shown controller index has changed
-                    if ( controller.index != _currentControllerIndex )
+                    // check if the window is currently show
+                    if ( _currentControllerIndex > -1 )
                     {
-                        // new info should be shown, put into wait queue
-                        _infoQueue.Add( title, controller );
-                        return;
+                        // check if the status of the currently shown controller index has changed
+                        if ( controller.index != _currentControllerIndex )
+                        {
+                            // new info should be shown, put into wait queue
+                            _infoQueue.Add( title, controller );
+                            return;
+                        }
                     }
+
+                    // set current controller index
+                    _currentControllerIndex = (int) controller.index;
+
+                    // stop timer
+                    _timer.Stop();
+
+                    // set if window will auto hide completely
+                    _autohideCompletely = ( controller.batteryLevel == Controller.BatteryLevel.Full || controller.batteryLevel == Controller.BatteryLevel.Medium );
+
+                    // set data
+                    infoTitle.Text = title;
+                    infoStatus.Text = controller.BatteryLevelToText();
+                    infoImage.Source = controller.BatteryLevelToImage();
+                    infoX.Visibility = ( _autohideCompletely ? Visibility.Hidden : Visibility.Visible );
+
+                    // position of window
+                    Left = SystemParameters.WorkArea.Width - Width;
+                    Top = ( SystemParameters.WorkArea.Height - Height ) * 0.95;
+
                 }
-
-                // stop timer
-                _timer.Stop();
-
-                // set if window will auto hide completely
-                _autohideCompletely = ( controller.batteryLevel == Controller.BatteryLevel.Full || controller.batteryLevel == Controller.BatteryLevel.Medium );
-
-                // set data
-                infoTitle.Text = title;
-                infoStatus.Text = controller.BatteryLevelToText();
-                infoImage.Source = controller.BatteryLevelToImage();
-                infoX.Visibility = ( _autohideCompletely ? Visibility.Hidden : Visibility.Visible );
-
-                // position of window
-                Left = SystemParameters.WorkArea.Width - Width;
-                Top = ( SystemParameters.WorkArea.Height - Height ) * 0.95;
-
-                // set current controller index
-                _currentControllerIndex = controller.index;
 
                 // fade in the window
                 FadeIn();
@@ -151,6 +157,10 @@ namespace XboxControllerWatcher
             if ( Opacity == 0.0 )
             {
                 Hide();
+                lock ( _lock )
+                {
+                    _currentControllerIndex = -1;
+                }
                 return;
             }
 
@@ -168,7 +178,13 @@ namespace XboxControllerWatcher
 
                 // hide if opacity is 0%
                 if ( to == 0.0 )
+                {
                     Hide();
+                    lock ( _lock )
+                    {
+                        _currentControllerIndex = -1;
+                    }
+                }
 
                 // check if there is an item in the wait queue
                 if ( to == 0.0 && _infoQueue.Size() > 0 )
