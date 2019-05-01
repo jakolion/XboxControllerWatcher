@@ -10,7 +10,7 @@
         public const int WINDOW_HOTKEY_DETECTED_FADE_IN_DURATION = 100;
         public const int WINDOW_HOTKEY_DETECTED_FADE_OUT_DURATION = 100;
         public const int WINDOW_INFO_SHOW_DURATION = 5000;
-        public const int WINDOW_INFO_FADE_IN_DURATION = 1000;
+        public const int WINDOW_INFO_FADE_IN_DURATION = 500;
         public const int WINDOW_INFO_FADE_OUT_DURATION = 250;
     }
 }
