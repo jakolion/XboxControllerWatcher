@@ -15,12 +15,13 @@ namespace XboxControllerWatcher
         private readonly SolidColorBrush COLOR_BUTTON_SELECTED = Brushes.Green;
         private readonly SolidColorBrush COLOR_BUTTON_MOUSE_OVER = SystemColors.HighlightBrush;
 
-        private ControllerButtonState _controllerButtonState = new ControllerButtonState();
+        private ControllerButtonState _controllerButtonState;
         private bool _saveButtonClickedOnce = false;
         private Settings _settings;
         private int _hotkeyIndex;
         private Hotkey _hotkey;
         private List<Border> _controllerButtons;
+        private bool _checkEnabled;
 
         public WindowController ( Settings settings, int index )
         {
@@ -62,12 +63,14 @@ namespace XboxControllerWatcher
             }
 
             // set UI elements
+            _checkEnabled = false;
             inputName.Text = _hotkey.name;
             radioCommandTypeBatteryLevel.IsChecked = _hotkey.isCommandBatteryLevel;
             radioCommandTypeCustom.IsChecked = !_hotkey.isCommandBatteryLevel;
             inputCommand.Text = _hotkey.commandCustom;
             inputEnabled.IsChecked = _hotkey.isEnabled;
-            _controllerButtonState = _hotkey.buttonState;
+            _controllerButtonState = new ControllerButtonState();
+            _controllerButtonState.Copy( _hotkey.buttonState );
 
             // set controlleer button colors
             foreach ( Border controllerButton in _controllerButtons )
@@ -77,50 +80,55 @@ namespace XboxControllerWatcher
                 controllerButton.Background = ( _controllerButtonState.GetButtonSelected( buttonStateName ) ? COLOR_BUTTON_SELECTED : COLOR_BUTTON_DEFAULT );
             }
 
+            _checkEnabled = true;
             Check();
         }
 
         private int Check ()
         {
             int errorCount = 0;
-            outputButtons.Text = _controllerButtonState.ButtonsToString();
 
-            // name
-            if ( inputName.Text == "" )
+            if ( _checkEnabled )
             {
-                errorCount++;
-                textName.Foreground = ( _saveButtonClickedOnce ? COLOR_TEXT_ERROR : COLOR_TEXT_DEFAULT );
-            }
-            else
-            {
-                textName.Foreground = COLOR_TEXT_DEFAULT;
-            }
+                outputButtons.Text = _controllerButtonState.ButtonsToString();
 
-            // command
-            if ( Convert.ToBoolean( radioCommandTypeCustom.IsChecked ) && inputCommand.Text == "" )
-            {
-                errorCount++;
-                textCommand.Foreground = ( _saveButtonClickedOnce ? COLOR_TEXT_ERROR : COLOR_TEXT_DEFAULT );
-                radioCommandTypeCustom.Foreground = ( _saveButtonClickedOnce ? COLOR_TEXT_ERROR : COLOR_TEXT_DEFAULT );
-            }
-            else
-            {
-                textCommand.Foreground = COLOR_TEXT_DEFAULT;
-                radioCommandTypeCustom.Foreground = COLOR_TEXT_DEFAULT;
-            }
+                // name
+                if ( inputName.Text == "" )
+                {
+                    errorCount++;
+                    textName.Foreground = ( _saveButtonClickedOnce ? COLOR_TEXT_ERROR : COLOR_TEXT_DEFAULT );
+                }
+                else
+                {
+                    textName.Foreground = COLOR_TEXT_DEFAULT;
+                }
 
-            // buttons
-            if ( _controllerButtonState.ButtonsCount() < 2 )
-            {
-                errorCount++;
-                textButtons.Foreground = ( _saveButtonClickedOnce ? COLOR_TEXT_ERROR : COLOR_TEXT_DEFAULT );
-                textMoreButtons.Foreground = ( _saveButtonClickedOnce ? COLOR_TEXT_ERROR : COLOR_TEXT_DEFAULT );
-                textMoreButtons.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                textButtons.Foreground = COLOR_TEXT_DEFAULT;
-                textMoreButtons.Visibility = Visibility.Hidden;
+                // command
+                if ( Convert.ToBoolean( radioCommandTypeCustom.IsChecked ) && inputCommand.Text == "" )
+                {
+                    errorCount++;
+                    textCommand.Foreground = ( _saveButtonClickedOnce ? COLOR_TEXT_ERROR : COLOR_TEXT_DEFAULT );
+                    radioCommandTypeCustom.Foreground = ( _saveButtonClickedOnce ? COLOR_TEXT_ERROR : COLOR_TEXT_DEFAULT );
+                }
+                else
+                {
+                    textCommand.Foreground = COLOR_TEXT_DEFAULT;
+                    radioCommandTypeCustom.Foreground = COLOR_TEXT_DEFAULT;
+                }
+
+                // buttons
+                if ( _controllerButtonState.ButtonsCount() < 2 )
+                {
+                    errorCount++;
+                    textButtons.Foreground = ( _saveButtonClickedOnce ? COLOR_TEXT_ERROR : COLOR_TEXT_DEFAULT );
+                    textMoreButtons.Foreground = ( _saveButtonClickedOnce ? COLOR_TEXT_ERROR : COLOR_TEXT_DEFAULT );
+                    textMoreButtons.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    textButtons.Foreground = COLOR_TEXT_DEFAULT;
+                    textMoreButtons.Visibility = Visibility.Hidden;
+                }
             }
             return errorCount;
         }
@@ -133,7 +141,7 @@ namespace XboxControllerWatcher
                 _hotkey.name = inputName.Text;
                 _hotkey.isCommandBatteryLevel = Convert.ToBoolean( radioCommandTypeBatteryLevel.IsChecked );
                 _hotkey.commandCustom = inputCommand.Text;
-                _hotkey.buttonState = _controllerButtonState;
+                _hotkey.buttonState.Copy( _controllerButtonState );
                 _hotkey.isEnabled = Convert.ToBoolean( inputEnabled.IsChecked );
                 if ( _hotkeyIndex == -1 )
                 {

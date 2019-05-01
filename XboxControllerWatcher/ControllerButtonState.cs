@@ -30,6 +30,16 @@ namespace XboxControllerWatcher
             };
         }
 
+        public void Copy ( ControllerButtonState newState )
+        {
+            isSelected.Clear();
+            foreach ( KeyValuePair<string, ushort> entry in _values )
+            {
+                if ( newState.isSelected.ContainsKey( entry.Key ) && newState.isSelected[entry.Key] )
+                    isSelected[entry.Key] = true;
+            }
+        }
+
         public ushort ButtonsToNum ()
         {
             ushort sum = 0;
