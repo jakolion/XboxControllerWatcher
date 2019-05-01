@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Threading;
+using System.Runtime.InteropServices;
+using System.Windows.Interop;
 
 namespace XboxControllerWatcher
 {
@@ -176,6 +178,27 @@ namespace XboxControllerWatcher
                     ShowInfo( iqi.text, iqi.controller );
                 }
             } );
+        }
+
+        [DllImport( "user32.dll" )]
+        public static extern int GetWindowLong ( IntPtr hwnd, int index );
+
+        [DllImport( "user32.dll" )]
+        public static extern int SetWindowLong ( IntPtr hwnd, int index, int newStyle );
+
+        protected override void OnSourceInitialized ( EventArgs e )
+        {
+            const int WS_EX_NOACTIVATE = 0x08000000;
+            const int GWL_EXSTYLE = -20;
+
+            base.OnSourceInitialized( e );
+
+            // get this window's handle
+            IntPtr hwnd = new WindowInteropHelper( this ).Handle;
+
+            // change the extended window style to include WS_EX_TRANSPARENT
+            int extendedStyle = GetWindowLong( hwnd, GWL_EXSTYLE );
+            SetWindowLong( hwnd, GWL_EXSTYLE, extendedStyle | WS_EX_NOACTIVATE );
         }
     }
 }

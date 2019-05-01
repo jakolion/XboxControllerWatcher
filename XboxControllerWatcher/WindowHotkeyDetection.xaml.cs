@@ -90,6 +90,7 @@ namespace XboxControllerWatcher
         protected override void OnSourceInitialized ( EventArgs e )
         {
             const int WS_EX_TRANSPARENT = 0x00000020;
+            const int WS_EX_NOACTIVATE = 0x08000000;
             const int GWL_EXSTYLE = -20;
 
             base.OnSourceInitialized( e );
@@ -99,7 +100,7 @@ namespace XboxControllerWatcher
 
             // change the extended window style to include WS_EX_TRANSPARENT
             int extendedStyle = GetWindowLong( hwnd, GWL_EXSTYLE );
-            SetWindowLong( hwnd, GWL_EXSTYLE, extendedStyle | WS_EX_TRANSPARENT );
+            SetWindowLong( hwnd, GWL_EXSTYLE, extendedStyle | WS_EX_TRANSPARENT | WS_EX_NOACTIVATE );
         }
     }
 }
