@@ -16,7 +16,9 @@ namespace XboxControllerWatcher
     public partial class Main : Window
     {
         private NotifyIcon _trayIcon;
+        private MenuItem _batteryLevelHeaderMenuItem;
         private MenuItem[] _batteryLevelMenuItems;
+        private MenuItem _batteryLevelSeparatorMenuItem;
         private WindowHotkeyDetection _windowHotkeyDetection;
 
         public Watcher watcher;
@@ -63,18 +65,21 @@ namespace XboxControllerWatcher
 
             trayMenu.MenuItems.Add( "-" );
 
-            MenuItem batteryLevelHeaderMenuItem = new MenuItem( "Controller Battery Level:" );
-            batteryLevelHeaderMenuItem.Enabled = false;
-            trayMenu.MenuItems.Add( batteryLevelHeaderMenuItem );
+            _batteryLevelHeaderMenuItem = new MenuItem( "Controller Battery Level:" );
+            _batteryLevelHeaderMenuItem.Enabled = false;
+            _batteryLevelHeaderMenuItem.Visible = false;
+            trayMenu.MenuItems.Add( _batteryLevelHeaderMenuItem );
             _batteryLevelMenuItems = new MenuItem[Constants.MAX_CONTROLLERS];
             for ( uint i = 0; i < Constants.MAX_CONTROLLERS; i++ )
             {
                 _batteryLevelMenuItems[i] = new MenuItem();
                 _batteryLevelMenuItems[i].Enabled = false;
+                _batteryLevelMenuItems[i].Visible = false;
                 trayMenu.MenuItems.Add( _batteryLevelMenuItems[i] );
             }
-
-            trayMenu.MenuItems.Add( "-" );
+            _batteryLevelSeparatorMenuItem = new MenuItem( "-" );
+            _batteryLevelSeparatorMenuItem.Visible = false;
+            trayMenu.MenuItems.Add( _batteryLevelSeparatorMenuItem );
 
 #if DEBUG
 
@@ -163,11 +168,56 @@ namespace XboxControllerWatcher
 
         public void SetBatteryLevelMenuItems ( Controller[] controllerList )
         {
+            // changing the visibility of a menu item will redraw the
+            // context menu and closes an open menu for the user
+            // therefore we will update visibility only if really necessary
+            const string INDENTION = "    ";
+            int controllerConnectedCount = 0;
             Dispatcher.Invoke( () =>
             {
                 for ( uint i = 0; i < Constants.MAX_CONTROLLERS; i++ )
                 {
-                    _batteryLevelMenuItems[i].Text = "    " + ( i + 1 ).ToString() + ". " + ( controllerList[i].isConnected ? controllerList[i].BatteryLevelToText() : "-" );
+                    if ( controllerList[i].isConnected )
+                    {
+                        _batteryLevelMenuItems[i].Text = INDENTION + ( i + 1 ).ToString() + ". " + controllerList[i].BatteryLevelToText();
+                        controllerConnectedCount++;
+                    }
+                    else
+                    {
+                        _batteryLevelMenuItems[i].Text = "";
+                    }
+                }
+
+                if ( controllerConnectedCount == 0 )
+                {
+                    if ( _batteryLevelHeaderMenuItem.Visible )
+                    {
+                        _batteryLevelHeaderMenuItem.Visible = false;
+                        _batteryLevelSeparatorMenuItem.Visible = false;
+                    }
+                }
+                else
+                {
+                    if ( !_batteryLevelHeaderMenuItem.Visible )
+                    {
+                        _batteryLevelHeaderMenuItem.Visible = true;
+                        _batteryLevelSeparatorMenuItem.Visible = true;
+                    }
+                }
+
+                for ( uint i = 0; i < Constants.MAX_CONTROLLERS; i++ )
+                {
+                    // no one liner because we must not update visibility if not necessary
+                    if ( _batteryLevelMenuItems[i].Text == "" )
+                    {
+                        if ( _batteryLevelMenuItems[i].Visible )
+                            _batteryLevelMenuItems[i].Visible = false;
+                    }
+                    else
+                    {
+                        if ( !_batteryLevelMenuItems[i].Visible )
+                            _batteryLevelMenuItems[i].Visible = true;
+                    }
                 }
             } );
         }
