@@ -52,8 +52,7 @@
             VerticalAlignment="Top"
             FontSize="16px"
             Foreground="#fff"
-            Padding="0, 10, 0, 0"
-            TextOptions.TextFormattingMode="Display" >
+            Padding="0, 10, 0, 0" >
             Initial Title
         </TextBlock>
         
@@ -64,8 +63,7 @@
             VerticalAlignment="Top"
             FontSize="16px"
             Foreground="#aaa"
-            Padding="0, 2, 0, 0"
-            TextOptions.TextFormattingMode="Display" >
+            Padding="0, 2, 0, 0" >
             Initial Status
         </TextBlock>
         

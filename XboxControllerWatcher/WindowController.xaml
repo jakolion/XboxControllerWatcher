@@ -32,14 +32,12 @@
 
             <TextBlock
                 Name="textName"
-                TextOptions.TextFormattingMode="Display"
                 FontWeight="Bold"
                 Margin="0, 0, 0, 2">
                 Name:
             </TextBlock>
             <TextBox
                 Name="inputName"
-                TextOptions.TextFormattingMode="Display"
                 TextWrapping="NoWrap"
                 Text=""
                 TextChanged="Input_TextChanged"
@@ -53,7 +51,6 @@
 
             <TextBlock
                 Name="textCommand"
-                TextOptions.TextFormattingMode="Display"
                 FontWeight="Bold"
                 Margin="0, 0, 0, 5">
                 Execute:
@@ -77,14 +74,12 @@
             <DockPanel>
                 <TextBlock
                     Name="textCustomCommand"
-                    TextOptions.TextFormattingMode="Display"
                     FontFamily="Consolas"
                     Margin="19, 4, 0, 2">
                     cmd /c
                 </TextBlock>
                 <TextBox
                     Name="inputCommand"
-                    TextOptions.TextFormattingMode="Display"
                     TextWrapping="NoWrap"
                     FontFamily="Consolas"
                     Text=""
@@ -113,7 +108,6 @@
             <TextBlock
                 Name="textMoreButtons"
                 HorizontalAlignment="Center"
-                TextOptions.TextFormattingMode="Display"
                 Margin="0, -50, 0, 0">
                 Please select at least two buttons.
                 </TextBlock>
@@ -123,7 +117,6 @@
 
                 <TextBlock
                     Name="textButtons"
-                    TextOptions.TextFormattingMode="Display"
                     FontWeight="Bold"
                     Margin="0, 0, 0, 0">
                     Selected Buttons:
@@ -132,7 +125,6 @@
                     Grid.Column="0"
                     Grid.Row="0"
                     Name="outputButtons"
-                    TextOptions.TextFormattingMode="Display"
                     TextWrapping="Wrap"
                     Text=""
                     BorderThickness="0"
@@ -320,7 +312,6 @@
             <TextBlock
                 FontSize="20"
                 FontWeight="Bold"
-                TextOptions.TextFormattingMode="Display"
                 VerticalAlignment="Center"
                 HorizontalAlignment="Center"
                 Margin="0, 0, 0, 4">
@@ -345,7 +336,6 @@
             <TextBlock
                 FontSize="20"
                 FontWeight="Bold"
-                TextOptions.TextFormattingMode="Display"
                 VerticalAlignment="Center"
                 HorizontalAlignment="Center"
                 Margin="0, 0, 0, 4">
@@ -370,7 +360,6 @@
             <TextBlock
                 FontSize="20"
                 FontWeight="Bold"
-                TextOptions.TextFormattingMode="Display"
                 VerticalAlignment="Center"
                 HorizontalAlignment="Center"
                 Margin="0, 0, 0, 4">
@@ -395,7 +384,6 @@
             <TextBlock
                 FontSize="20"
                 FontWeight="Bold"
-                TextOptions.TextFormattingMode="Display"
                 VerticalAlignment="Center"
                 HorizontalAlignment="Center"
                 Margin="0, 0, 0, 4">

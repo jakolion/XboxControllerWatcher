@@ -39,7 +39,6 @@
         <TextBlock
             Grid.Row="0"
             Grid.Column="1"
-            TextOptions.TextFormattingMode="Display"
             VerticalAlignment="Top"
             HorizontalAlignment="Left"
             TextWrapping="Wrap"

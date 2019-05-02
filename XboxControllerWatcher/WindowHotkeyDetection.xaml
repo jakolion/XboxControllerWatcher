@@ -30,7 +30,6 @@
         FontSize="18px"
         Foreground="#fff"
         Margin="0, 0, 0, 3"
-        TextOptions.TextFormattingMode="Display"
         Padding="15, 10"
         TextWrapping="Wrap"
         TextAlignment="Center">
