@@ -11,8 +11,7 @@
         Height="400"
         MinHeight="200"
         Icon="Resources/icon.ico"
-        WindowStartupLocation="CenterScreen"
-        >
+        WindowStartupLocation="CenterScreen" >
 
     <Grid Margin="10">
 

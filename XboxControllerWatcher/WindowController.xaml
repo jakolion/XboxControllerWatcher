@@ -41,7 +41,7 @@
                 TextWrapping="NoWrap"
                 Text=""
                 TextChanged="Input_TextChanged"
-                Padding="3"
+                Padding="3, 5"
                 Margin="0, 0, 0, 20" />
 
             <CheckBox
@@ -75,7 +75,7 @@
                 <TextBlock
                     Name="textCustomCommand"
                     FontFamily="Consolas"
-                    Margin="19, 4, 0, 2">
+                    Margin="19, 6, 0, 0">
                     cmd /c
                 </TextBlock>
                 <TextBox
@@ -84,7 +84,7 @@
                     FontFamily="Consolas"
                     Text=""
                     TextChanged="Input_TextChanged"
-                    Padding="3"
+                    Padding="3, 5"
                     Margin="10, 0, 0, 20" />
             </DockPanel>
 
