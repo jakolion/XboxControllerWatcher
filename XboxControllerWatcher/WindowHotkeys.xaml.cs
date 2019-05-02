@@ -1,16 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace XboxControllerWatcher
 {
@@ -95,8 +88,15 @@ namespace XboxControllerWatcher
                 if ( !Convert.ToBoolean( new WindowHotkeyRemovalConfirmation().ShowDialog() ) )
                     return;
 
+                List<int> ids = new List<int>();
                 foreach ( ListItem li in list.SelectedItems )
-                    _settings.hotkeys.RemoveAt( li.index );
+                    ids.Add( li.index );
+
+                ids.Sort();
+                ids.Reverse();
+
+                foreach ( int i in ids )
+                    _settings.hotkeys.RemoveAt( i );
 
                 _settings.WriteConfig();
                 RefreshUi();
