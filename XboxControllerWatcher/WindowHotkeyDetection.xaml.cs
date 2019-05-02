@@ -98,7 +98,7 @@ namespace XboxControllerWatcher
             // get this window's handle
             IntPtr hwnd = new WindowInteropHelper( this ).Handle;
 
-            // change the extended window style to include WS_EX_TRANSPARENT
+            // change the extended window style
             int extendedStyle = GetWindowLong( hwnd, GWL_EXSTYLE );
             SetWindowLong( hwnd, GWL_EXSTYLE, extendedStyle | WS_EX_TRANSPARENT | WS_EX_NOACTIVATE );
         }

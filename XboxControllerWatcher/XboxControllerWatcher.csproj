@@ -103,6 +103,9 @@
     <Compile Include="WindowController.xaml.cs">
       <DependentUpon>WindowController.xaml</DependentUpon>
     </Compile>
+    <Compile Include="WindowHotkeyRemovalConfirmation.xaml.cs">
+      <DependentUpon>WindowHotkeyRemovalConfirmation.xaml</DependentUpon>
+    </Compile>
     <Compile Include="WindowHotkeyDetection.xaml.cs">
       <DependentUpon>WindowHotkeyDetection.xaml</DependentUpon>
     </Compile>
@@ -115,6 +118,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="WindowController.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WindowHotkeyRemovalConfirmation.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

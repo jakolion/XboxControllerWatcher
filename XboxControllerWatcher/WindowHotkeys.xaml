@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:XboxControllerWatcher"
         mc:Ignorable="d"
-        Title="Controller Hotkeys"
+        Title="Hotkeys"
         Width="700"
         MinWidth="300"
         Height="400"

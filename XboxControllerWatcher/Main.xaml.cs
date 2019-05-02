@@ -27,11 +27,11 @@ namespace XboxControllerWatcher
 
         public Main ()
         {
-            InitializeComponent();
-
             // set language to English/US
             Thread.CurrentThread.CurrentCulture = new CultureInfo( "en-US" );
             Thread.CurrentThread.CurrentUICulture = new CultureInfo( "en-US" );
+
+            InitializeComponent();
 
             // read settings file
             settings = new Settings();
@@ -56,7 +56,7 @@ namespace XboxControllerWatcher
             version.Enabled = false;
             trayMenu.MenuItems.Add( version );
 
-            trayMenu.MenuItems.Add( "Controller Hotkey Configuration...", OnHotkeyConfiguration );
+            trayMenu.MenuItems.Add( "Hotkey Configuration...", OnHotkeyConfiguration );
 
             MenuItem autostartMenuItem = new MenuItem( "Autostart" );
             autostartMenuItem.Checked = Autostart.GetAutostart();

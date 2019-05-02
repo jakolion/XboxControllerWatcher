@@ -1,0 +1,77 @@
+﻿<Window x:Class="XboxControllerWatcher.WindowHotkeyRemovalConfirmation"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:XboxControllerWatcher"
+        mc:Ignorable="d"
+        Title="Confirm Hotkey Removal"
+        Width="350"
+        SizeToContent="Height"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        Icon="Resources/icon.ico"
+        Closing="Window_Closing" >
+
+    <Grid Margin="10">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Image
+            Name="image"
+            Grid.Row="0"
+            Grid.Column="0"
+            Width="32"
+            Height="32"
+            Margin="0, 0, 10, 0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            RenderOptions.BitmapScalingMode="Fant" />
+
+        <TextBlock
+            Grid.Row="0"
+            Grid.Column="1"
+            TextOptions.TextFormattingMode="Display"
+            VerticalAlignment="Top"
+            HorizontalAlignment="Left"
+            TextWrapping="Wrap"
+            LineHeight="18" >
+            Do you really want to permanently remove the selected hotkeys?
+        </TextBlock>
+
+        <StackPanel
+            Grid.Row="1"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Orientation="Horizontal"
+            HorizontalAlignment="Right"
+            Margin="0, 20, 0, 0" >
+
+            <Button
+                Name="ButtonRemove"
+                Content="Remove"
+                Click="ButtonRemove_Click"
+                Padding="20, 2"
+                IsDefault="True"
+                Margin="0, 0, 10, 0" />
+            
+            <Button
+                Name="ButtonCancel"
+                Content="Cancel"
+                Click="ButtonCancel_Click"
+                IsCancel="True"
+                Padding="20, 2" />
+
+        </StackPanel>
+        
+    </Grid>
+    
+</Window>

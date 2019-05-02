@@ -92,13 +92,7 @@ namespace XboxControllerWatcher
         {
             if ( list.SelectedItems.Count > 0 )
             {
-                MessageBoxResult result = MessageBox.Show(
-                    "Do you really want to remove the selected hotkeys?",
-                    "Remove hotkeys",
-                    MessageBoxButton.OKCancel,
-                    MessageBoxImage.Warning );
-
-                if ( result != MessageBoxResult.OK )
+                if ( !Convert.ToBoolean( new WindowHotkeyRemovalConfirmation().ShowDialog() ) )
                     return;
 
                 foreach ( ListItem li in list.SelectedItems )
