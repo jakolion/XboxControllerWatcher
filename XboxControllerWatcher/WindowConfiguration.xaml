@@ -1,0 +1,155 @@
+﻿<Window x:Class="XboxControllerWatcher.WindowConfiguration"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:XboxControllerWatcher"
+        mc:Ignorable="d"
+        Title="Configuration"
+        Width="950"
+        MinWidth="700"
+        Height="450"
+        MinHeight="300"
+        Icon="Resources/icon.ico"
+        WindowStartupLocation="CenterScreen">
+
+    <Grid Margin="10">
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="300" />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <GroupBox
+            Grid.Row="0"
+            Grid.Column="0"
+            Header="Hotkeys"
+            Padding="10"
+            Margin="0, 0, 10, 0">
+
+            <Grid>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <StackPanel
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Left"
+                    Margin="0, 0, 0, 10">
+                    <Button Name="ButtonAdd" Content="Add" Click="ButtonAdd_Click" Padding="20, 3" Margin="0, 0, 10, 0" />
+                    <Button Name="ButtonEdit" Content="Edit" Click="ButtonEdit_Click" Padding="20, 3" Margin="0, 0, 10, 0" />
+                    <Button Name="ButtonRemove" Content="Remove" Click="ButtonRemove_Click" Padding="20, 3" />
+                </StackPanel>
+
+                <ListView
+                    Name="list"
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    IsTextSearchEnabled="True"
+                    Margin="0"
+                    SelectionMode="Extended"
+                    MouseDoubleClick="List_MouseDoubleClick"
+                    SelectionChanged="List_SelectionChanged"
+                    MouseDown="List_MouseDown">
+                    <ListView.View>
+                        <GridView>
+                            <GridView.ColumnHeaderContainerStyle>
+                                <Style TargetType="GridViewColumnHeader">
+                                    <Setter Property="IsHitTestVisible" Value="False"/>
+                                    <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                                    <Setter Property="Padding" Value="6, 2"/>
+                                </Style>
+                            </GridView.ColumnHeaderContainerStyle>
+                            <GridViewColumn Header="">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox Click="CheckBox_Clicked" Tag="{Binding index}" IsChecked="{Binding enabled}"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Name" DisplayMemberBinding="{Binding name}"/>
+                            <GridViewColumn Header="Execute" DisplayMemberBinding="{Binding command}"/>
+                            <GridViewColumn Header="Buttons" DisplayMemberBinding="{Binding buttons}"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+
+            </Grid>
+
+        </GroupBox>
+
+        <GroupBox
+            Grid.Row="0"
+            Grid.Column="1"
+            Header="Notifications"
+            Padding="10">
+
+            <StackPanel
+                Grid.Column="0"
+                Grid.Row="0"
+                Orientation="Vertical">
+
+                <DockPanel
+                    Margin="0, 0, 0, 10">
+                    <TextBlock
+                        Name="textNotificationCustomCommand"
+                        TextWrapping="Wrap">
+                        Show notification on custom command:
+                    </TextBlock>
+                    <CheckBox
+                        Name="inputNotificationCustomCommand"
+                        Content=""
+                        Click="InputNotificationCustomCommand_Click"
+                        Margin="10, 1, 0, 0" />
+                </DockPanel>
+                <TextBlock
+                    Name="textNotificationPersistentBatteryLevel"
+                    TextWrapping="Wrap"
+                    Margin="0, 0, 0, 5">
+                    Battery level notification persistent:
+                </TextBlock>
+                <ComboBox
+                    Name="inputNotificationPersistentBatteryLevel"
+                    SelectionChanged="InputNotificationPersistentBatteryLevel_SelectionChanged"
+                    Margin="0, 0, 0, 5"/>
+                <TextBlock
+                    Name="textNotificationPersistentBatteryLevelDescription"
+                    FontStyle="Italic"
+                    Margin="0, 0, 0, 5"
+                    TextWrapping="Wrap">
+                    The notification will stay on the screen if the battery level matches the selected one or lower.<LineBreak />A mouse click is necessary for closing it.
+                </TextBlock>
+
+            </StackPanel>
+
+        </GroupBox>
+
+        <StackPanel
+            Grid.Row="1"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Orientation="Horizontal"
+            HorizontalAlignment="Right"
+            Margin="0, 10, 0, 0">
+
+            <Button
+                Name="ButtonClose"
+                Content="Close"
+                Click="ButtonClose_Click"
+                IsCancel="True"
+                Padding="20, 3" />
+
+        </StackPanel>
+
+    </Grid>
+
+</Window>

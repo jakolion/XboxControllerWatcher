@@ -10,9 +10,10 @@ namespace XboxControllerWatcher
 {
     public partial class WindowHotkeyRemovalConfirmation : Window
     {
-        public WindowHotkeyRemovalConfirmation ()
+        public WindowHotkeyRemovalConfirmation ( Window owner )
         {
             InitializeComponent();
+            Owner = owner;
             image.Source = ToImageSource( SystemIcons.Warning );
         }
 

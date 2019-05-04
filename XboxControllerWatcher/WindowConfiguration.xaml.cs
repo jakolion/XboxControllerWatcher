@@ -7,16 +7,36 @@ using System.Windows.Media;
 
 namespace XboxControllerWatcher
 {
-    public partial class WindowHotkeys : Window
+    public partial class WindowConfiguration : Window
     {
         private Settings _settings;
         private List<ListItem> _listItems = new List<ListItem>();
 
-        public WindowHotkeys ( Settings settings )
+        public WindowConfiguration ( Settings settings )
         {
             InitializeComponent();
-            list.ItemsSource = _listItems;
+
+            // read settings
             _settings = settings;
+
+            // set data for hotkey list
+            list.ItemsSource = _listItems;
+
+            // create dropdown menu
+            inputNotificationPersistentBatteryLevel.Items.Insert( 0, "<Never>" );
+            for ( Controller.BatteryLevel i = 0; i <= Controller.BatteryLevel.Full; i++ )
+            {
+                Controller c = new Controller( 0, false, i );
+                // increase index by one
+                int index = (int) i + 1;
+                inputNotificationPersistentBatteryLevel.Items.Insert( index, c.BatteryLevelToText() );
+            }
+
+            // set current values
+            inputNotificationCustomCommand.IsChecked = _settings.notificationCustomCommand;
+            inputNotificationPersistentBatteryLevel.SelectedIndex = _settings.notificationPersistentBatteryLevel + 1;
+
+            // load ui
             RefreshUi();
         }
 
@@ -62,7 +82,7 @@ namespace XboxControllerWatcher
 
         private void ButtonAdd_Click ( object sender, RoutedEventArgs e )
         {
-            new WindowController( _settings, -1 ).ShowDialog();
+            new WindowController( _settings, -1, this ).ShowDialog();
             RefreshUi();
         }
 
@@ -76,7 +96,7 @@ namespace XboxControllerWatcher
             ListItem li = list.SelectedItem as ListItem;
             if ( li != null )
             {
-                new WindowController( _settings, li.index ).ShowDialog();
+                new WindowController( _settings, li.index, this ).ShowDialog();
                 RefreshUi();
             }
         }
@@ -85,7 +105,7 @@ namespace XboxControllerWatcher
         {
             if ( list.SelectedItems.Count > 0 )
             {
-                if ( !Convert.ToBoolean( new WindowHotkeyRemovalConfirmation().ShowDialog() ) )
+                if ( !Convert.ToBoolean( new WindowHotkeyRemovalConfirmation( this ).ShowDialog() ) )
                     return;
 
                 List<int> ids = new List<int>();
@@ -108,7 +128,7 @@ namespace XboxControllerWatcher
             ListItem li = ( e.OriginalSource as FrameworkElement ).DataContext as ListItem;
             if ( li != null )
             {
-                new WindowController( _settings, li.index ).ShowDialog();
+                new WindowController( _settings, li.index, this ).ShowDialog();
                 RefreshUi();
             }
         }
@@ -140,6 +160,18 @@ namespace XboxControllerWatcher
             HitTestResult r = VisualTreeHelper.HitTest( this, e.GetPosition( this ) );
             if ( r.VisualHit.GetType() != typeof( ListBoxItem ) )
                 list.UnselectAll();
+        }
+
+        private void InputNotificationCustomCommand_Click ( object sender, RoutedEventArgs e )
+        {
+            _settings.notificationCustomCommand = Convert.ToBoolean( inputNotificationCustomCommand.IsChecked );
+            _settings.WriteConfig();
+        }
+
+        private void InputNotificationPersistentBatteryLevel_SelectionChanged ( object sender, System.Windows.Controls.SelectionChangedEventArgs e )
+        {
+            _settings.notificationPersistentBatteryLevel = inputNotificationPersistentBatteryLevel.SelectedIndex - 1;
+            _settings.WriteConfig();
         }
     }
 

@@ -13,12 +13,15 @@ namespace XboxControllerWatcher
         private int _currentControllerIndex = -1;
         private readonly object _lock = new object();
         private bool _mouseIsOver = false;
+        private Settings _settings;
         private InfoQueue _infoQueue;
         private OpacityAnimation _animation;
 
-        public WindowInfo ()
+        public WindowInfo ( Settings settings )
         {
             InitializeComponent();
+
+            _settings = settings;
 
             // set opacity
             Opacity = 0.0;
@@ -111,7 +114,7 @@ namespace XboxControllerWatcher
                     _timer.Stop();
 
                     // set if window will auto hide completely
-                    _autohideCompletely = ( controller.batteryLevel == Controller.BatteryLevel.Full || controller.batteryLevel == Controller.BatteryLevel.Medium );
+                    _autohideCompletely = ( (int) controller.batteryLevel > _settings.notificationPersistentBatteryLevel );
 
                     // set data
                     infoTitle.Text = title;

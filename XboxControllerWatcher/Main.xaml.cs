@@ -7,7 +7,6 @@ using System.Reflection;
 using NotifyIcon = System.Windows.Forms.NotifyIcon;
 using ContextMenu = System.Windows.Forms.ContextMenu;
 using MenuItem = System.Windows.Forms.MenuItem;
-using Application = System.Windows.Forms.Application;
 using MouseEventArgs = System.Windows.Forms.MouseEventArgs;
 using MouseButtons = System.Windows.Forms.MouseButtons;
 
@@ -38,7 +37,7 @@ namespace XboxControllerWatcher
             settings.ReadConfig();
 
             // create info window
-            windowInfo = new WindowInfo();
+            windowInfo = new WindowInfo( settings );
 
             // create hotkey detection window
             _windowHotkeyDetection = new WindowHotkeyDetection();
@@ -46,17 +45,17 @@ namespace XboxControllerWatcher
             // create tray icon
             _trayIcon = new NotifyIcon();
             _trayIcon.Icon = (Icon) Properties.Resources.ResourceManager.GetObject( "icon" );
-            _trayIcon.Text = Application.ProductName;
+            _trayIcon.Text = System.Windows.Forms.Application.ProductName;
             _trayIcon.MouseUp += OnTrayMenu_MouseUp;
 
             // create tray menu
             ContextMenu trayMenu = new ContextMenu();
 
-            MenuItem version = new MenuItem( Application.ProductName + " " + Helper.GetVersion() );
+            MenuItem version = new MenuItem( System.Windows.Forms.Application.ProductName + " " + Helper.GetVersion() );
             version.Enabled = false;
             trayMenu.MenuItems.Add( version );
 
-            trayMenu.MenuItems.Add( "Hotkey Configuration...", OnHotkeyConfiguration );
+            trayMenu.MenuItems.Add( "Configuration...", OnConfiguration );
 
             MenuItem autostartMenuItem = new MenuItem( "Autostart" );
             autostartMenuItem.Checked = Autostart.GetAutostart();
@@ -101,13 +100,7 @@ namespace XboxControllerWatcher
             _trayIcon.Visible = true;
 
             // create watcher
-            watcher = new Watcher( this );
-
-            // open hotkey config
-            //new WindowHotkeys( ref _settings ).ShowDialog();
-
-            // open new hotkey window
-            //new WindowController( ref _settings, -1 ).ShowDialog();
+            watcher = new Watcher( this, settings );
         }
 
 #if DEBUG
@@ -140,9 +133,20 @@ namespace XboxControllerWatcher
 
 #endif
 
-        private void OnHotkeyConfiguration ( object sender, EventArgs e )
+        private void OnConfiguration ( object sender, EventArgs e )
         {
-            new WindowHotkeys( settings ).ShowDialog();
+            // check if window is already open
+            foreach ( Window w in Application.Current.Windows )
+            {
+                if ( w is WindowConfiguration )
+                {
+                    w.Activate();
+                    return;
+                }
+            }
+
+            // open new configuration window
+            new WindowConfiguration( settings ).ShowDialog();
         }
 
         private void OnAutostart ( object sender, EventArgs e )

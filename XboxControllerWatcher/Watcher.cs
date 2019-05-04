@@ -11,11 +11,13 @@ namespace XboxControllerWatcher
         private Main _main;
         private Timer _hotkeyTimer;
         private Timer _batteryTimer;
+        private Settings _settings;
         private Controller[] _controllerList;
 
-        public Watcher ( Main main )
+        public Watcher ( Main main, Settings settings )
         {
             _main = main;
+            _settings = settings;
 
             // create list of controllers
             _controllerList = new Controller[Constants.MAX_CONTROLLERS];
@@ -114,7 +116,7 @@ namespace XboxControllerWatcher
                                 else
                                 {
                                     // show detected window
-                                    if ( !hotkeyDetectedWindowShown )
+                                    if ( _settings.notificationCustomCommand && !hotkeyDetectedWindowShown )
                                     {
                                         _main.ShowHotkeyDetected( hotkey.name );
                                         hotkeyDetectedWindowShown = true;

@@ -7,6 +7,8 @@ namespace XboxControllerWatcher
     public class Settings
     {
         private string _configFilename = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name + ".json";
+        public bool notificationCustomCommand = true;
+        public int notificationPersistentBatteryLevel = (int) Controller.BatteryLevel.Low;
         public List<Hotkey> hotkeys = new List<Hotkey>();
 
         override
@@ -16,12 +18,19 @@ namespace XboxControllerWatcher
             foreach ( Hotkey hotkey in hotkeys )
                 hotkey.buttonState.CleanButtons();
 
-            return new JavaScriptSerializer().Serialize( hotkeys );
+            return new JavaScriptSerializer().Serialize( this );
         }
 
         public void FromString ( string json )
         {
-            hotkeys = new JavaScriptSerializer().Deserialize<List<Hotkey>>( json );
+            try
+            {
+                Settings settings = new JavaScriptSerializer().Deserialize<Settings>( json );
+                notificationCustomCommand = settings.notificationCustomCommand;
+                notificationPersistentBatteryLevel = settings.notificationPersistentBatteryLevel;
+                hotkeys = settings.hotkeys;
+            }
+            catch { }
         }
 
         public void ReadConfig ()

@@ -11,7 +11,7 @@
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize"
         Icon="Resources/icon.ico"
-        Closing="Window_Closing" >
+        Closing="Window_Closing">
 
     <Grid Margin="10">
 
@@ -42,7 +42,7 @@
             VerticalAlignment="Top"
             HorizontalAlignment="Left"
             TextWrapping="Wrap"
-            LineHeight="18" >
+            LineHeight="18">
             Do you really want to permanently remove the selected hotkeys?
         </TextBlock>
 
@@ -52,13 +52,13 @@
             Grid.ColumnSpan="2"
             Orientation="Horizontal"
             HorizontalAlignment="Right"
-            Margin="0, 20, 0, 0" >
+            Margin="0, 20, 0, 0">
 
             <Button
                 Name="ButtonRemove"
                 Content="Remove"
                 Click="ButtonRemove_Click"
-                Padding="20, 2"
+                Padding="20, 3"
                 IsDefault="True"
                 Margin="0, 0, 10, 0" />
             
@@ -67,7 +67,7 @@
                 Content="Cancel"
                 Click="ButtonCancel_Click"
                 IsCancel="True"
-                Padding="20, 2" />
+                Padding="20, 3" />
 
         </StackPanel>
         

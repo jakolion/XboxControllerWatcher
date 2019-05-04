@@ -28,11 +28,10 @@
         <StackPanel
             Grid.Column="0"
             Grid.Row="0"
-            Orientation="Vertical" >
+            Orientation="Vertical">
 
             <TextBlock
                 Name="textName"
-                FontWeight="Bold"
                 Margin="0, 0, 0, 2">
                 Name:
             </TextBlock>
@@ -42,16 +41,10 @@
                 Text=""
                 TextChanged="Input_TextChanged"
                 Padding="3, 5"
-                Margin="0, 0, 0, 20" />
-
-            <CheckBox
-                Name="inputEnabled"
-                Content="Enabled"
-                Margin="0, 0, 0, 20" />
+                Margin="0, 0, 0, 10" />
 
             <TextBlock
                 Name="textCommand"
-                FontWeight="Bold"
                 Margin="0, 0, 0, 5">
                 Execute:
             </TextBlock>
@@ -71,11 +64,12 @@
                     Margin="0, 0, 0, 3"
                     Click="CommandType_Click" />
             </StackPanel>
-            <DockPanel>
+            <DockPanel
+                Margin="0, 0, 0, 10">
                 <TextBlock
                     Name="textCustomCommand"
                     FontFamily="Consolas"
-                    Margin="19, 6, 0, 0">
+                    Margin="19, 6, 10, 0">
                     cmd /c
                 </TextBlock>
                 <TextBox
@@ -84,8 +78,19 @@
                     FontFamily="Consolas"
                     Text=""
                     TextChanged="Input_TextChanged"
-                    Padding="3, 5"
-                    Margin="10, 0, 0, 20" />
+                    Padding="3, 5" />
+            </DockPanel>
+
+            <DockPanel
+                Margin="0, 0, 0, 10">
+                <TextBlock
+                    Name="textEnabled">
+                    Enabled:
+                </TextBlock>
+                <CheckBox
+                    Name="inputEnabled"
+                    Content=""
+                    Margin="10, 1, 0, 0" />
             </DockPanel>
 
         </StackPanel>
@@ -94,7 +99,7 @@
             Grid.Column="2"
             Grid.Row="0"
             Orientation="Vertical"
-            Margin="20, 0, 0, 0" >
+            Margin="20, 0, 0, 0">
 
             <Image
                 Name="image"
@@ -110,15 +115,13 @@
                 HorizontalAlignment="Center"
                 Margin="0, -50, 0, 0">
                 Please select at least two buttons.
-                </TextBlock>
+            </TextBlock>
 
             <DockPanel
                 Margin="0, 10, 0, 0">
 
                 <TextBlock
-                    Name="textButtons"
-                    FontWeight="Bold"
-                    Margin="0, 0, 0, 0">
+                    Name="textButtons">
                     Selected Buttons:
                 </TextBlock>
                 <TextBox
@@ -402,7 +405,7 @@
                 Name="buttonSave"
                 Content="Save"
                 Click="ButtonSave_Click"
-                Padding="20, 2"
+                Padding="20, 3"
                 IsDefault="True"
                 Margin="0, 0, 10, 0" />
 
@@ -411,7 +414,7 @@
                 Content="Cancel"
                 Click="ButtonCancel_Click"
                 IsCancel="True"
-                Padding="20, 2" />
+                Padding="20, 3" />
 
         </StackPanel>
 

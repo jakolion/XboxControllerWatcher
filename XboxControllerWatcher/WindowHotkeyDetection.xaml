@@ -17,7 +17,7 @@
         ShowInTaskbar="False"
         IsHitTestVisible="False"
         SizeChanged="Window_SizeChanged"
-        Closing="Window_Closing" >
+        Closing="Window_Closing">
 
     <Window.Background>
         <SolidColorBrush Opacity="0.75" Color="#000"/>

@@ -109,8 +109,8 @@
     <Compile Include="WindowHotkeyDetection.xaml.cs">
       <DependentUpon>WindowHotkeyDetection.xaml</DependentUpon>
     </Compile>
-    <Compile Include="WindowHotkeys.xaml.cs">
-      <DependentUpon>WindowHotkeys.xaml</DependentUpon>
+    <Compile Include="WindowConfiguration.xaml.cs">
+      <DependentUpon>WindowConfiguration.xaml</DependentUpon>
     </Compile>
     <Compile Include="XInput.cs" />
     <Page Include="Main.xaml">
@@ -142,7 +142,7 @@
       <DependentUpon>WindowInfo.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="WindowHotkeys.xaml">
+    <Page Include="WindowConfiguration.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

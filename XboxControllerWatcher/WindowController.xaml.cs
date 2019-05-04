@@ -23,9 +23,12 @@ namespace XboxControllerWatcher
         private List<Border> _controllerButtons;
         private bool _checkEnabled;
 
-        public WindowController ( Settings settings, int index )
+        public WindowController ( Settings settings, int index, Window owner )
         {
             InitializeComponent();
+
+            // set owner
+            Owner = owner;
 
             // create list of all controller buttons for later updates
             _controllerButtons = new List<Border>()
