@@ -4,13 +4,17 @@ The *Xbox Controller Watcher* is monitoring a connected Xbox Controller and has 
 
 1. Battery Level
 
-    Because of a missing battery level indicator of the Xbox One Controller when connected to a PC, the *Xbox Controller Watcher* monitors the battery level. It shows a popup when the controller gets connected, disconnected or if the battery level changes.
+    Because of a missing battery level indicator of the Xbox One Controller when connected to a PC, the *Xbox Controller Watcher* monitors the battery level. It shows a notification when the controller gets connected, disconnected or if the battery level changes.
     
-    If the popup is shown while a fullscreen application is running, the popup might not be visible to the user. Therefore the popup will stay on the screen if the battery level changes to low or empty. Then the user is able to see the popup when exiting the fullscreen application.
+    If the notification is shown while a fullscreen application is running, it might not be visible to the user. Therefore it can stay on the screen if the battery changes to a specific level which can be set individually in the configuration. Then the user is able to see the notification when exiting the fullscreen application.
 
 2. Hotkeys
 
     Additionally the *Xbox Controller Watcher* monitors hotkeys pressed on the controller. The user can define custom hotkeys and the corresponding commands.
+    
+    An useful example would be the activation of Steam's Big Picture which you can achieve by executing the following command:
+    
+    <pre>cmd /c start steam://open/bigpicture</pre>
 
 ## Credits
 
