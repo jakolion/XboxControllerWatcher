@@ -10,6 +10,7 @@ namespace XboxControllerWatcher
     public partial class WindowController : Window
     {
         private readonly SolidColorBrush COLOR_TEXT_DEFAULT = SystemColors.WindowTextBrush;
+        private readonly SolidColorBrush COLOR_TEXT_DISABLED = Brushes.Gray;
         private readonly SolidColorBrush COLOR_TEXT_ERROR = Brushes.Red;
         private readonly SolidColorBrush COLOR_BUTTON_DEFAULT = Brushes.Gray;
         private readonly SolidColorBrush COLOR_BUTTON_SELECTED = Brushes.Green;
@@ -93,8 +94,6 @@ namespace XboxControllerWatcher
 
             if ( _checkEnabled )
             {
-                outputButtons.Text = _controllerButtonState.ButtonsToString();
-
                 // name
                 if ( inputName.Text == "" )
                 {
@@ -118,19 +117,32 @@ namespace XboxControllerWatcher
                     textCommand.Foreground = COLOR_TEXT_DEFAULT;
                     radioCommandTypeCustom.Foreground = COLOR_TEXT_DEFAULT;
                 }
+                if ( Convert.ToBoolean( radioCommandTypeBatteryLevel.IsChecked ) )
+                {
+                    textCustomCommand.Foreground = COLOR_TEXT_DISABLED;
+                    inputCommand.IsEnabled = false;
+                }
+                else
+                {
+                    textCustomCommand.Foreground = COLOR_TEXT_DEFAULT;
+                    inputCommand.IsEnabled = true;
+                }
 
                 // buttons
                 if ( _controllerButtonState.ButtonsCount() < 2 )
                 {
                     errorCount++;
                     textButtons.Foreground = ( _saveButtonClickedOnce ? COLOR_TEXT_ERROR : COLOR_TEXT_DEFAULT );
-                    textMoreButtons.Foreground = ( _saveButtonClickedOnce ? COLOR_TEXT_ERROR : COLOR_TEXT_DEFAULT );
-                    textMoreButtons.Visibility = Visibility.Visible;
+                    outputButtons.Text = "Please select at least two buttons on the right side";
+                    outputButtons.FontStyle = FontStyles.Italic;
+                    outputButtons.Foreground = ( _saveButtonClickedOnce ? COLOR_TEXT_ERROR : COLOR_TEXT_DEFAULT );
                 }
                 else
                 {
                     textButtons.Foreground = COLOR_TEXT_DEFAULT;
-                    textMoreButtons.Visibility = Visibility.Hidden;
+                    outputButtons.Text = _controllerButtonState.ButtonsToString();
+                    outputButtons.FontStyle = FontStyles.Normal;
+                    outputButtons.Foreground = COLOR_TEXT_DEFAULT;
                 }
             }
             return errorCount;
@@ -147,9 +159,8 @@ namespace XboxControllerWatcher
                 _hotkey.buttonState.Copy( _controllerButtonState );
                 _hotkey.isEnabled = Convert.ToBoolean( inputEnabled.IsChecked );
                 if ( _hotkeyIndex == -1 )
-                {
                     _settings.hotkeys.Add( _hotkey );
-                }
+
                 _settings.WriteConfig();
                 Close();
             }

@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:XboxControllerWatcher"
         mc:Ignorable="d"
         Title="Hotkey"
-        Height="460"
+        Height="430"
         Width="875"
         Icon="Resources/icon.ico"
         WindowStartupLocation="CenterScreen"
@@ -16,7 +16,7 @@
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="30" />
+            <ColumnDefinition Width="20" />
             <ColumnDefinition Width="500" />
         </Grid.ColumnDefinitions>
 
@@ -32,22 +32,20 @@
 
             <TextBlock
                 Name="textName"
-                Margin="0, 0, 0, 2">
-                Name:
-            </TextBlock>
+                Text="Name:"
+                Margin="0, 0, 0, 5"/>
             <TextBox
                 Name="inputName"
                 TextWrapping="NoWrap"
                 Text=""
                 TextChanged="Input_TextChanged"
                 Padding="3, 5"
-                Margin="0, 0, 0, 10" />
+                Margin="0, 0, 0, 20" />
 
             <TextBlock
                 Name="textCommand"
-                Margin="0, 0, 0, 5">
-                Execute:
-            </TextBlock>
+                Text="Execute:"
+                Margin="0, 0, 0, 5"/>
             <StackPanel
                 Orientation="Vertical">
                 <RadioButton
@@ -60,18 +58,17 @@
                 <RadioButton
                     Name="radioCommandTypeCustom"
                     GroupName="commandType"
-                    Content="Custom Command:"
+                    Content="Custom Command"
                     Margin="0, 0, 0, 3"
                     Click="CommandType_Click" />
             </StackPanel>
             <DockPanel
-                Margin="0, 0, 0, 10">
+                Margin="0, 0, 0, 20">
                 <TextBlock
                     Name="textCustomCommand"
+                    Text="cmd /c"
                     FontFamily="Consolas"
-                    Margin="19, 6, 10, 0">
-                    cmd /c
-                </TextBlock>
+                    Margin="19, 6, 8, 0"/>
                 <TextBox
                     Name="inputCommand"
                     TextWrapping="NoWrap"
@@ -82,24 +79,31 @@
             </DockPanel>
 
             <DockPanel
-                Margin="0, 0, 0, 10">
+                Margin="0, 0, 0, 20">
                 <TextBlock
-                    Name="textEnabled">
-                    Enabled:
-                </TextBlock>
+                    Name="textEnabled"
+                    Text="Enabled:"/>
                 <CheckBox
                     Name="inputEnabled"
                     Content=""
                     Margin="10, 1, 0, 0" />
             </DockPanel>
 
+            <TextBlock
+                Name="textButtons"
+                Text="Selected Buttons:"
+                Margin="0, 0, 0, 5"/>
+            <TextBlock
+                Name="outputButtons"
+                TextWrapping="Wrap"
+                Margin="0, 0, 0, 20"/>
+
         </StackPanel>
 
         <StackPanel
             Grid.Column="2"
             Grid.Row="0"
-            Orientation="Vertical"
-            Margin="20, 0, 0, 0">
+            Orientation="Vertical">
 
             <Image
                 Name="image"
@@ -109,32 +113,6 @@
                 VerticalAlignment="Top"
                 RenderOptions.BitmapScalingMode="Fant"
                 Source="Resources/imageController.png" />
-
-            <TextBlock
-                Name="textMoreButtons"
-                HorizontalAlignment="Center"
-                Margin="0, -50, 0, 0">
-                Please select at least two buttons.
-            </TextBlock>
-
-            <DockPanel
-                Margin="0, 10, 0, 0">
-
-                <TextBlock
-                    Name="textButtons">
-                    Selected Buttons:
-                </TextBlock>
-                <TextBox
-                    Grid.Column="0"
-                    Grid.Row="0"
-                    Name="outputButtons"
-                    TextWrapping="Wrap"
-                    Text=""
-                    BorderThickness="0"
-                    IsReadOnly="True"
-                    Margin="5, 0, 0, 0" />
-
-            </DockPanel>
 
         </StackPanel>
 
@@ -148,7 +126,7 @@
             Background="Gray"
             VerticalAlignment="Top"
             HorizontalAlignment="Left"
-            Margin="190, 147, 0, 0"
+            Margin="170, 147, 0, 0"
             MouseEnter="ControllerButton_MouseEnter"
             MouseLeave="ControllerButton_MouseLeave"
             MouseUp="ControllerButton_MouseUp" />
@@ -163,7 +141,7 @@
             Background="Gray"
             VerticalAlignment="Top"
             HorizontalAlignment="Left"
-            Margin="190, 185, 0, 0"
+            Margin="170, 185, 0, 0"
             MouseEnter="ControllerButton_MouseEnter"
             MouseLeave="ControllerButton_MouseLeave"
             MouseUp="ControllerButton_MouseUp" />
@@ -178,7 +156,7 @@
             Background="Gray"
             VerticalAlignment="Top"
             HorizontalAlignment="Left"
-            Margin="169, 168, 0, 0"
+            Margin="149, 168, 0, 0"
             MouseEnter="ControllerButton_MouseEnter"
             MouseLeave="ControllerButton_MouseLeave"
             MouseUp="ControllerButton_MouseUp" />
@@ -193,7 +171,7 @@
             Background="Gray"
             VerticalAlignment="Top"
             HorizontalAlignment="Left"
-            Margin="207, 168, 0, 0"
+            Margin="187, 168, 0, 0"
             MouseEnter="ControllerButton_MouseEnter"
             MouseLeave="ControllerButton_MouseLeave"
             MouseUp="ControllerButton_MouseUp" />
@@ -208,7 +186,7 @@
             Background="Gray"
             VerticalAlignment="Top"
             HorizontalAlignment="Left"
-            Margin="285, 90, 0, 0"
+            Margin="265, 90, 0, 0"
             MouseEnter="ControllerButton_MouseEnter"
             MouseLeave="ControllerButton_MouseLeave"
             MouseUp="ControllerButton_MouseUp" />
@@ -223,7 +201,7 @@
             Background="Gray"
             VerticalAlignment="Top"
             HorizontalAlignment="Left"
-            Margin="216, 90, 0, 0"
+            Margin="196, 90, 0, 0"
             MouseEnter="ControllerButton_MouseEnter"
             MouseLeave="ControllerButton_MouseLeave"
             MouseUp="ControllerButton_MouseUp" />
@@ -238,7 +216,7 @@
             Background="Gray"
             VerticalAlignment="Top"
             HorizontalAlignment="Left"
-            Margin="114, 75, 0, 0"
+            Margin="94, 75, 0, 0"
             MouseEnter="ControllerButton_MouseEnter"
             MouseLeave="ControllerButton_MouseLeave"
             MouseUp="ControllerButton_MouseUp" />
@@ -253,7 +231,7 @@
             Background="Gray"
             VerticalAlignment="Top"
             HorizontalAlignment="Left"
-            Margin="299, 149, 0, 0"
+            Margin="279, 149, 0, 0"
             MouseEnter="ControllerButton_MouseEnter"
             MouseLeave="ControllerButton_MouseLeave"
             MouseUp="ControllerButton_MouseUp" />
@@ -268,7 +246,7 @@
             Background="Gray"
             VerticalAlignment="Top"
             HorizontalAlignment="Left"
-            Margin="93, 12, 0, 0"
+            Margin="73, 12, 0, 0"
             MouseEnter="ControllerButton_MouseEnter"
             MouseLeave="ControllerButton_MouseLeave"
             MouseUp="ControllerButton_MouseUp"
@@ -288,7 +266,7 @@
             Background="Gray"
             VerticalAlignment="Top"
             HorizontalAlignment="Left"
-            Margin="340, 12, 0, 0"
+            Margin="320, 12, 0, 0"
             MouseEnter="ControllerButton_MouseEnter"
             MouseLeave="ControllerButton_MouseLeave"
             MouseUp="ControllerButton_MouseUp"
@@ -308,7 +286,7 @@
             Background="Gray"
             VerticalAlignment="Top"
             HorizontalAlignment="Left"
-            Margin="366, 116, 0, 0"
+            Margin="346, 116, 0, 0"
             MouseEnter="ControllerButton_MouseEnter"
             MouseLeave="ControllerButton_MouseLeave"
             MouseUp="ControllerButton_MouseUp">
@@ -332,7 +310,7 @@
             Background="Gray"
             VerticalAlignment="Top"
             HorizontalAlignment="Left"
-            Margin="400, 83, 0, 0"
+            Margin="380, 83, 0, 0"
             MouseEnter="ControllerButton_MouseEnter"
             MouseLeave="ControllerButton_MouseLeave"
             MouseUp="ControllerButton_MouseUp">
@@ -356,7 +334,7 @@
             Background="Gray"
             VerticalAlignment="Top"
             HorizontalAlignment="Left"
-            Margin="334, 83, 0, 0"
+            Margin="314, 83, 0, 0"
             MouseEnter="ControllerButton_MouseEnter"
             MouseLeave="ControllerButton_MouseLeave"
             MouseUp="ControllerButton_MouseUp">
@@ -380,7 +358,7 @@
             Background="Gray"
             VerticalAlignment="Top"
             HorizontalAlignment="Left"
-            Margin="366, 51, 0, 0"
+            Margin="346, 51, 0, 0"
             MouseEnter="ControllerButton_MouseEnter"
             MouseLeave="ControllerButton_MouseLeave"
             MouseUp="ControllerButton_MouseUp">

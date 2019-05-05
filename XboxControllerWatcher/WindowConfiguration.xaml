@@ -102,21 +102,18 @@
                     Margin="0, 0, 0, 10">
                     <TextBlock
                         Name="textNotificationCustomCommand"
-                        TextWrapping="Wrap">
-                        Show notification on custom command:
-                    </TextBlock>
+                        Text="Show notification on custom command:"/>
                     <CheckBox
                         Name="inputNotificationCustomCommand"
                         Content=""
                         Click="InputNotificationCustomCommand_Click"
                         Margin="10, 1, 0, 0" />
                 </DockPanel>
+                
                 <TextBlock
                     Name="textNotificationPersistentBatteryLevel"
-                    TextWrapping="Wrap"
-                    Margin="0, 0, 0, 5">
-                    Battery level notification persistent:
-                </TextBlock>
+                    Text="Battery level notification persistent:"
+                    Margin="0, 0, 0, 5"/>
                 <ComboBox
                     Name="inputNotificationPersistentBatteryLevel"
                     SelectionChanged="InputNotificationPersistentBatteryLevel_SelectionChanged"
@@ -126,7 +123,8 @@
                     FontStyle="Italic"
                     Margin="0, 0, 0, 5"
                     TextWrapping="Wrap">
-                    The notification will stay on the screen if the battery level matches the selected one or lower.<LineBreak />A mouse click is necessary for closing it.
+                    The notification will stay on the screen if the battery level matches the selected one or lower.<LineBreak />
+                    A mouse click on the notification is necessary for closing it.
                 </TextBlock>
 
             </StackPanel>
