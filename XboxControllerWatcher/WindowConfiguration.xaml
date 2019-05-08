@@ -112,7 +112,7 @@
                 
                 <TextBlock
                     Name="textNotificationPersistentBatteryLevel"
-                    Text="Battery level notification persistent:"
+                    Text="Persistent battery level notification:"
                     Margin="0, 0, 0, 5"/>
                 <ComboBox
                     Name="inputNotificationPersistentBatteryLevel"

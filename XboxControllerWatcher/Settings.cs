@@ -8,7 +8,7 @@ namespace XboxControllerWatcher
     {
         private string _configFilename = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name + ".json";
         public bool notificationCustomCommand = true;
-        public int notificationPersistentBatteryLevel = (int) Controller.BatteryLevel.Low;
+        public int notificationPersistentBatteryLevel = (int) Controller.BatteryLevel.Empty;
         public List<Hotkey> hotkeys = new List<Hotkey>();
 
         override
@@ -23,6 +23,7 @@ namespace XboxControllerWatcher
 
         public void FromString ( string json )
         {
+            // try to read the config file
             try
             {
                 Settings settings = new JavaScriptSerializer().Deserialize<Settings>( json );
