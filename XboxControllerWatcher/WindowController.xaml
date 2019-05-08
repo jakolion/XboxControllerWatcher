@@ -46,37 +46,59 @@
                 Name="textCommand"
                 Text="Execute:"
                 Margin="0, 0, 0, 5"/>
+            
             <StackPanel
-                Orientation="Vertical">
+                Orientation="Vertical"
+                Margin="0, 0, 0, 20">
+                
                 <RadioButton
                     Name="radioCommandTypeBatteryLevel"
                     GroupName="commandType"
                     Content="Show Battery Level"
                     IsChecked="True"
-                    Margin="0, 0, 0, 3"
+                    Margin="0, 0, 0, 5"
                     Click="CommandType_Click" />
+                
                 <RadioButton
                     Name="radioCommandTypeCustom"
                     GroupName="commandType"
                     Content="Custom Command"
-                    Margin="0, 0, 0, 3"
+                    Margin="0, 0, 0, 5"
                     Click="CommandType_Click" />
+                
+                <DockPanel>
+                    
+                    <TextBlock
+                        Name="textCustomCommand"
+                        Text="cmd /c"
+                        FontFamily="Consolas"
+                        Margin="19, 6, 8, 0" />
+                    
+                    <StackPanel
+                        Orientation="Vertical">
+
+                        <TextBox
+                            Name="inputCommand"
+                            TextWrapping="NoWrap"
+                            FontFamily="Consolas"
+                            Text=""
+                            TextChanged="Input_TextChanged"
+                            Margin="0, 0, 0, 5"
+                            Padding="3, 5" />
+
+                        <Button
+                            Name="buttonCustomCommandTest"
+                            Content="Execute"
+                            Click="ButtonCustomCommandTest_Click"
+                            Width="Auto"
+                            HorizontalAlignment="Left"
+                            Padding="20, 3" />
+
+                    </StackPanel>
+                    
+                </DockPanel>
+                
             </StackPanel>
-            <DockPanel
-                Margin="0, 0, 0, 20">
-                <TextBlock
-                    Name="textCustomCommand"
-                    Text="cmd /c"
-                    FontFamily="Consolas"
-                    Margin="19, 6, 8, 0"/>
-                <TextBox
-                    Name="inputCommand"
-                    TextWrapping="NoWrap"
-                    FontFamily="Consolas"
-                    Text=""
-                    TextChanged="Input_TextChanged"
-                    Padding="3, 5" />
-            </DockPanel>
 
             <DockPanel
                 Margin="0, 0, 0, 20">

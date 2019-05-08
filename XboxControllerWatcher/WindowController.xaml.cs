@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -117,16 +118,10 @@ namespace XboxControllerWatcher
                     textCommand.Foreground = COLOR_TEXT_DEFAULT;
                     radioCommandTypeCustom.Foreground = COLOR_TEXT_DEFAULT;
                 }
-                if ( Convert.ToBoolean( radioCommandTypeBatteryLevel.IsChecked ) )
-                {
-                    textCustomCommand.Foreground = COLOR_TEXT_DISABLED;
-                    inputCommand.IsEnabled = false;
-                }
-                else
-                {
-                    textCustomCommand.Foreground = COLOR_TEXT_DEFAULT;
-                    inputCommand.IsEnabled = true;
-                }
+
+                textCustomCommand.Foreground = ( Convert.ToBoolean( radioCommandTypeCustom.IsChecked ) ? COLOR_TEXT_DEFAULT : COLOR_TEXT_DISABLED );
+                inputCommand.IsEnabled = Convert.ToBoolean( radioCommandTypeCustom.IsChecked );
+                buttonCustomCommandTest.IsEnabled = Convert.ToBoolean( radioCommandTypeCustom.IsChecked );
 
                 // buttons
                 if ( _controllerButtonState.ButtonsCount() < 2 )
@@ -146,6 +141,15 @@ namespace XboxControllerWatcher
                 }
             }
             return errorCount;
+        }
+
+        private void ButtonCustomCommandTest_Click ( object sender, RoutedEventArgs e )
+        {
+            Process process = new Process();
+            process.StartInfo.FileName = "cmd";
+            process.StartInfo.Arguments = "/c " + inputCommand.Text;
+            process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+            process.Start();
         }
 
         private void ButtonSave_Click ( object sender, RoutedEventArgs e )
