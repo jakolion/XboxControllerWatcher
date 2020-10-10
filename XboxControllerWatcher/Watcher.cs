@@ -28,7 +28,7 @@ namespace XboxControllerWatcher
             _hotkeyTimer = new Timer();
             _hotkeyTimer.Interval = Constants.POLL_INTERVAL_HOTKEY;
             _hotkeyTimer.AutoReset = false;
-            _hotkeyTimer.Elapsed += ( sender, e ) => OnHotkeyTimerEvent( sender, e );
+            _hotkeyTimer.Elapsed += OnHotkeyTimerEvent;
             _hotkeyTimer.Enabled = true;
             _hotkeyTimer.Start();
 
@@ -36,12 +36,12 @@ namespace XboxControllerWatcher
             _batteryTimer = new Timer();
             _batteryTimer.Interval = Constants.POLL_INTERVAL_BATTERY_LEVEL;
             _batteryTimer.AutoReset = false;
-            _batteryTimer.Elapsed += ( sender, e ) => OnBatteryTimerEvent( sender, e );
+            _batteryTimer.Elapsed += OnBatteryTimerEvent;
             _batteryTimer.Enabled = true;
             _batteryTimer.Start();
         }
 
-        private void OnHotkeyTimerEvent ( object source, EventArgs e )
+        private void OnHotkeyTimerEvent ( object source, ElapsedEventArgs eventArgs )
         {
             // this try/catch ensures that the loop doesn't stop in case of an exception
             try
@@ -73,15 +73,10 @@ namespace XboxControllerWatcher
 
                 // check if at least one controller is connected and one
                 // hotkey is defined, otherwise we want to reduce the load
-                if ( isAnyControllerConnected && isAnyHotkeyEnabled )
+                if ( !isAnyControllerConnected || !isAnyHotkeyEnabled )
                 {
-                    // set short intervall and continue
-                    _hotkeyTimer.Interval = Constants.POLL_INTERVAL_HOTKEY;
-                }
-                else
-                {
-                    // set long interval and restart the loop
-                    _hotkeyTimer.Interval = Constants.POLL_INTERVAL_HOTKEY_INACTIVE;
+                    // wait
+                    Thread.Sleep( Constants.POLL_INTERVAL_HOTKEY_INACTIVE );
 
                     // restart timer
                     _hotkeyTimer.Start();
@@ -150,7 +145,7 @@ namespace XboxControllerWatcher
             _hotkeyTimer.Start();
         }
 
-        private void OnBatteryTimerEvent ( object source, ElapsedEventArgs e )
+        private void OnBatteryTimerEvent ( object source, ElapsedEventArgs eventArgs )
         {
             // this try/catch ensures that the loop doesn't stop in case of an exception
             try
